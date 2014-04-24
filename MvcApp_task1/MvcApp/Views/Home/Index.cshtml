@@ -1,0 +1,48 @@
+﻿@model IEnumerable<MvcApp.usertbl>
+
+@{
+    ViewBag.Title = "Список пользователей";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Создать нового пользователя", "Create")
+</p>
+<table>
+    <tr>
+        <th>Логин</th>
+        <th>Имя пользователя</th>
+        <th>E-mail</th>
+        <th>Адрес</th>
+        <th>Номер телефона</th>
+           
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.loginuser)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.nameuser)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.phonenumber)
+        </td>
+        
+        <td>
+            @Html.ActionLink("Редактировать", "Edit", new { item.iduser }) |
+            @Html.ActionLink("Удалить", "Delete", new { item.iduser })
+        </td>
+    </tr>
+}
+
+</table>

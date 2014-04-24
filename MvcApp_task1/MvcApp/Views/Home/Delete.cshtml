@@ -1,0 +1,42 @@
+﻿@model MvcApp.usertbl
+
+@{
+    ViewBag.Title = "Удаление";
+}
+
+<h2>Удаление</h2>
+
+<h3>Вы уверены, что хотите удалить пользователя?</h3>
+<fieldset>
+    <legend>Данные пользователя</legend>
+    <div class="display-field">Логин: 
+        @Html.DisplayFor(model => model.loginuser)
+    </div>
+
+    <div class="display-field">Ф. И. О.: 
+        @Html.DisplayFor(model => model.nameuser)
+    </div>
+
+    <div class="display-field">Адрес: 
+        @Html.DisplayFor(model => model.address)
+    </div>
+
+    <div class="display-field">Номер телефона: 
+        @Html.DisplayFor(model => model.phonenumber)
+    </div>
+
+    <div class="display-field">E-mail: 
+        @Html.DisplayFor(model => model.email)
+    </div>
+    
+    <div class="display-field">Пароль: 
+        @Html.DisplayFor(model => model.password)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="Удалить" /> |
+        @Html.ActionLink("К списку пользователей", "Index")
+    </p>
+}
