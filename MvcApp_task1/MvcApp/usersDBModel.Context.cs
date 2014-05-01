@@ -25,7 +25,7 @@ namespace MvcApp
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<usertbl> usertbl { get; set; }
+        public DbSet<usertbl> User { get; set; }
         
 
     }

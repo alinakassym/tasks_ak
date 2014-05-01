@@ -13,50 +13,45 @@
     <fieldset>
         <legend>Данные пользователя</legend>
 
-        <div class="editor-label">Логин
-        </div>
-        <div class="editor-field">
+        <div>Логин</div>
+        <div>
             @Html.EditorFor(model => model.loginuser)
             @Html.ValidationMessageFor(model => model.loginuser)
         </div>
 
-        <div class="editor-label">Ф. И. О.
-        </div>
-        <div class="editor-field">
+        <div>Ф. И. О.</div>
+        <div>
             @Html.EditorFor(model => model.nameuser)
             @Html.ValidationMessageFor(model => model.nameuser)
         </div>
 
-        <div class="editor-label">Адрес
-        </div>
-        <div class="editor-field">
+        <div>Адрес</div>
+        <div>
             @Html.EditorFor(model => model.address)
             @Html.ValidationMessageFor(model => model.address)
         </div>
 
-        <div class="editor-label">Номер телефона
+        <div>Номер телефона
         </div>
-        <div class="editor-field">
+        <div>
             @Html.EditorFor(model => model.phonenumber)
             @Html.ValidationMessageFor(model => model.phonenumber)
         </div>
 
-        <div class="editor-label">E-mail
-        </div>
-        <div class="editor-field">
+        <div>E-mail</div>
+        <div>
             @Html.EditorFor(model => model.email)
             @Html.ValidationMessageFor(model => model.email)
         </div>
                 
-        <div class="editor-label">Пароль
-        </div>
-        <div class="editor-field">
+        <div>Пароль</div>
+        <div>
             @Html.EditorFor(model => model.password)
             @Html.ValidationMessageFor(model => model.password)
         </div>
 
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" value="Создать" />
         </p>
     </fieldset>
 }

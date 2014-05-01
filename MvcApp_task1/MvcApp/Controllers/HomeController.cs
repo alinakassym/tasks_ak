@@ -5,67 +5,84 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data;
 using System.Data.Entity;
+using MvcApp.Repositories;
 
 namespace MvcApp.Controllers
 {
     public class HomeController : Controller
     {
-        private usersDBEntities db = new usersDBEntities();
+        private IHomeRepository _userRepository;
+        public HomeController()
+        {
+            this._userRepository = new HomeRepository(new usersDBEntities());
+        }
 
         public ActionResult Index()
         {
-            return View(db.usertbl.ToList());
+            var users = from user in _userRepository.GetUsers()
+                        select user;
+            return View(users);
         }
 
         public ActionResult Create()
         {
-            return View();
+            return View(new usertbl());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(usertbl usertbl)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.usertbl.Add(usertbl);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    _userRepository.InsertUser(usertbl);
+                    _userRepository.Save();
+                    return RedirectToAction("Index");
+                }
             }
-
+            catch (DataException)
+            {
+                ModelState.AddModelError("", "Unable to save changes. " +
+                  "Try again, and if the problem persists see your system administrator.");
+            }
             return View(usertbl);
         }
 
-        public ActionResult Edit(int iduser = 0)
+        public ActionResult Edit(int iduser)
         {
-            usertbl usertbl = db.usertbl.Find(iduser);
-            if (usertbl == null)
-            {
-                return HttpNotFound();
-            }
-            return View(usertbl);
+            usertbl user = _userRepository.GetUserByID(iduser);
+            return View(user);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(usertbl usertbl)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(usertbl).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    _userRepository.UpdateUser(usertbl);
+                    _userRepository.Save();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (DataException)
+            {
+                ModelState.AddModelError("", "");
             }
             return View(usertbl);
         }
 
-        public ActionResult Delete(int iduser = 0)
+        public ActionResult Delete(int iduser, bool? saveChangesError)
         {
-            usertbl usertbl = db.usertbl.Find(iduser);
-            if (usertbl == null)
+            if (saveChangesError.GetValueOrDefault())
             {
-                return HttpNotFound();
+                ViewBag.ErrorMessage = "";
             }
+            usertbl usertbl = _userRepository.GetUserByID(iduser);
             return View(usertbl);
         }
 
@@ -76,9 +93,19 @@ namespace MvcApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int iduser)
         {
-            usertbl usertbl = db.usertbl.Find(iduser);
-            db.usertbl.Remove(usertbl);
-            db.SaveChanges();
+            try
+            {
+                usertbl usertbl = _userRepository.GetUserByID(iduser);
+                _userRepository.DeleteUser(iduser);
+                _userRepository.Save();
+            }
+            catch (DataException)
+            {
+                return RedirectToAction("Delete",
+                    new System.Web.Routing.RouteValueDictionary {
+                        { "iduser", iduser },
+                        { "SaveChangesError", true}});
+            }
             return RedirectToAction("Index");
         }
     }
