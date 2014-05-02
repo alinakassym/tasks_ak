@@ -44,8 +44,7 @@ namespace MvcApp.Controllers
             }
             catch (DataException)
             {
-                ModelState.AddModelError("", "Unable to save changes. " +
-                  "Try again, and if the problem persists see your system administrator.");
+                ModelState.AddModelError("", "Невозможно сохранить изменения. Убедитесь, что все поля заполнены верно");
             }
             return View(usertbl);
         }
@@ -71,7 +70,7 @@ namespace MvcApp.Controllers
             }
             catch (DataException)
             {
-                ModelState.AddModelError("", "");
+                ModelState.AddModelError("", "Невозможно сохранить изменения");
             }
             return View(usertbl);
         }
@@ -80,7 +79,7 @@ namespace MvcApp.Controllers
         {
             if (saveChangesError.GetValueOrDefault())
             {
-                ViewBag.ErrorMessage = "";
+                ViewBag.ErrorMessage = "Невозможно сохранить изменения";
             }
             usertbl usertbl = _userRepository.GetUserByID(iduser);
             return View(usertbl);
