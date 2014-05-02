@@ -102,8 +102,7 @@ namespace MvcApp.Controllers
             {
                 return RedirectToAction("Delete",
                     new System.Web.Routing.RouteValueDictionary {
-                        { "iduser", iduser },
-                        { "SaveChangesError", true}});
+                        { "iduser", iduser }, { "SaveChangesError", true}});
             }
             return RedirectToAction("Index");
         }
